@@ -200,6 +200,7 @@ const sharp = require('sharp')
 
 const upload = multer({
     // dest: 'avatars',//folder we want to store uploaded images  // now we store images in db so remove this line
+
     limits: {
         fileSize: 1000000
     },
@@ -212,9 +213,12 @@ const upload = multer({
     }
 
 })
-// uploading avatar // HAndling errors
-// hb.post('/upload/me/avatar', upload.single('avatar'), (req, res) => {
-//     req.user.avatar = req.file.buffer // taking avatar binary data and 
+// // uploading avatar // HAndling errors // it's not working
+// const upload1 = multer({
+//     dest: 'avatars'
+// })
+// router.post('/upload/me/avatar', upload1.single('avatar'), (req, res) => {
+//     // req.user.avatar = req.file.buffer // taking avatar binary data and 
 //     res.send()
 // }, (error, req, res, next) => {
 //     res.status(400).send({ error: error.message })
@@ -230,9 +234,10 @@ router.post('/user/me/avatar', auth, upload.single('avatar'), async (req, res) =
     // /* to see this image copy the binary data use in html*/
     // // <img src="data:image/jpg:base64;binarydata"> // here data means we give data of image,image/jpg means that data is image and jpg type & base64 encoded
 
-
+    console.log(req.file.buffer)
     // Auto cropping and changing image formattig
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer() // it resize image & change img type to png
+    req.user.avatar = buffer
     await req.user.save() // saving to db's // because it takes time we use async and await
     res.send()
 }, (error, req, res, next) => {
@@ -265,4 +270,5 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.status(404).send()
     }
 })
+
 module.exports = router
