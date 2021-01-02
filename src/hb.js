@@ -1,6 +1,6 @@
 const express = require('express')
 require('./db/mongoose')
-require('dotenv').config({ path: 'src/config/.env' })
+// require('dotenv').config({ path: 'src/config/.env' })
 // const users = require('./models/user.js')
 // const tasks = require('./models/tasks')
 // const Task = require('./models/tasks')
