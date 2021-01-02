@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 // const validator = require('validator')
-// require('dotenv').config({ path: 'src/config/.env' })
+try {
+    require('dotenv').config({ path: 'src/config/.env' })
+} catch (e) {
+
+}
 // console.log(process.env.MONGODB_URL)
 mongoose.connect(process.env.MONGODB_URL, { // creates task-manager-api db
     useNewUrlParser: true,
