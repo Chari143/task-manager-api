@@ -1,6 +1,6 @@
 const express = require('express')
 require('./db/mongoose')
-require('dotenv').config({ path: 'src/config/dev.env' })
+require('dotenv').config({ path: 'src/config/.env' })
 // const users = require('./models/user.js')
 // const tasks = require('./models/tasks')
 // const Task = require('./models/tasks')
@@ -371,12 +371,12 @@ const upload = multer({
 // OR
 // HAndling errors
 
-hb.post('/upload', upload.single('upload'), (req, res) => {
-    res.send()
-}, (error, req, res, next /*4 arguments r compulsary*/) => {
-    res.status(400).send({ error: error.message })
-}
-)
+// hb.post('/upload', upload.single('upload'), (req, res) => {
+//     res.send()
+// }, (error, req, res, next /*4 arguments r compulsary*/) => {
+//     res.status(400).send({ error: error.message })
+// }
+// )
 
 
 
@@ -400,11 +400,11 @@ const myFunction = async () => {
 
 
     // 
-    const token = jwt.sign({ _id: 'harihimabindhu143' }, 'they r lovers', { expiresIn: '7 days' }) //harihimabindhu143 is id we want from user &  they r l overs   is secret key byusing this th token will be created don't share this   & expiresIn is the  expiring time for token u can give sec,hours .......
+    const token = jwt.sign({ _id: 'harihimabindhu143' }, process.env.JWT_SECRET, { expiresIn: '7 days' }) //harihimabindhu143 is id we want from user &  they r l overs   is secret key byusing this th token will be created don't share this   & expiresIn is the  expiring time for token u can give sec,hours .......
     console.log(token) // if u search middle value of token in base64decode  u can get {"_id":"harihimabindhu143","iat":1598537706}  iat is the time stamp when token is created
 
     // Verifying token
-    const data = jwt.verify(token, 'they r lovers') //u have to enter secret key to vetify token if it is correct or not
+    const data = jwt.verify(token, process.env.JWT_SECRET) //u have to enter secret key to vetify token if it is correct or not
     console.log(data)
 
 }
@@ -441,7 +441,7 @@ const main = async () => {
     const user = await users.findById('5f48fcdc79da1d03e0a1cafe') // owner id in the task
     // console.log(user.tasks) // u dont get any tasks for this we can set up a virtual property in user model we use this because we don't have any tasks id in our user profile 
     //but we have owner id in tasks if u store all tasks ids created by that user then u can reverse the process means virtual property in tasks model and ref in user model
-    await user.populate('tasks').execPopulate() // tasks is the name specified in virtual property
+    await user.populate("tasks").execPopulate() // tasks is the name specified in virtual property
     console.log(user.tasks) // no we get task
 }
-main()
+// main()
